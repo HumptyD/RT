@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 13:46:07 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/05 18:50:34 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/06 17:15:21 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_sphere	init_sphere(void)
 	sphere.center = (t_vector){0, 0, 0, 1};
 	sphere.latitude = (t_vector){0, 0, 1, 0};
 	sphere.longitude = (t_vector){1, 0, 0, 0};
+	sphere.cut_v = (t_vector){0, 0, 0, 0};
+	sphere.cut_angle = 0. * M_PI / 180;
 	sphere.r = 10;
 	return (sphere);
 }

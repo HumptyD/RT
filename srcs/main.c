@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 12:19:55 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/04 15:02:35 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/07 19:31:46 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	sdl_loop(t_render *render)
 			if (render->sdl.event.type == SDL_KEYDOWN)
 				keyboard(render, &quit);
 		}
+		if (render->trace_path)
+			ft_render(render);
 	}
 }
 

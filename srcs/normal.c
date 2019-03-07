@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 17:22:41 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/05 18:48:12 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/06 16:00:45 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void					change_sphere_basis(t_intersection *inter)
 	t_vector		y;
 	t_vector		normal;
 
-	y = cross_product(((t_sphere *)inter->primitive->primitive)->longitude, inter->normal);
+	y = cross_product(((t_sphere *)inter->primitive->primitive)->latitude, inter->normal);
 	y = vector_normalize(cross_product(y, inter->normal));
 	m = change_basis(y, inter->normal, (t_vector){0, 0, 0, 1});
 	normal = inter->primitive->texture->picture->normals[normal_id(inter)];
@@ -85,8 +85,8 @@ void					change_cone_basis(t_intersection *inter)
 	t_vector		y;
 	t_vector		normal;
 
-	y = cross_product(((t_cone *)inter->primitive->primitive)->r_vec, inter->normal);
-	y = vector_normalize(cross_product(y, inter->normal));
+	y = vector_normalize(vector_sub(((t_cone *)inter->primitive->primitive)->tip, inter->point));
+//	y = vector_normalize(cross_product(y, inter->normal));
 	m = change_basis(y, inter->normal, (t_vector){0, 0, 0, 1});
 	normal = inter->primitive->texture->picture->normals[normal_id(inter)];
 	inter->normal = vector_normalize(vector_matrix_multiply(normal, m));

@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 12:11:39 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/04 17:32:39 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/07 20:21:52 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct	s_camera
 	double		vert;
 	double		hor;
 	double		focus;
+	double		r;
 }				t_camera;
 
 typedef struct	s_ray
@@ -118,6 +119,12 @@ typedef struct	s_object
 	t_primitive	*primitives;
 }				t_object;
 
+typedef struct	s_pixel
+{
+	t_vector	pixel;
+	int			samples;
+}				t_pixel;
+
 typedef struct	s_render
 {
 	int			w_width;
@@ -127,9 +134,10 @@ typedef struct	s_render
 	int			materials_nb;
 	int			pictures_nb;
 	int			textures_nb;
+	int			trace_path;
 	t_picture	*pictures;
 	t_object	*objects;
-	t_vector	*pixels;
+	t_pixel		*pixels;
 	t_sdl		sdl;
 	t_camera	cam;
 	t_ray		*rays;
@@ -139,7 +147,7 @@ typedef struct	s_render
 }				t_render;
 
 void			keyboard(t_render *render, int *quit);
-void			init(t_render *render);
+void			init(t_render *rendr);
 void			ft_render(t_render *render);
 void			ray_cast(t_render *render);
 void			set_pixel(SDL_Surface *surface, int x, int y, unsigned int pixel);
@@ -180,6 +188,7 @@ double			light_cone_intersection(t_cone, t_ray ray);
 double			light_circle_intersection(t_circle circle, t_ray ray);
 t_vector		get_texture(t_intersection inter, t_texture texture);
 t_vector		ray_tracing(t_render *render, t_ray ray, int reflection);
+t_vector		path_tracing(t_render *render, t_ray ray, int depth);
 t_sphere		init_sphere(void);
 t_triangle		init_triangle(void);
 t_circle		init_circle(void);
@@ -187,5 +196,6 @@ t_cylinder		init_cylinder(void);
 t_cone			init_cone(void);
 t_ray			reflected_ray(t_ray l_ray, t_intersection inter);
 t_ray			refracted_ray(t_ray ray, t_intersection inter, double refr_index);
+t_ray			random_ray(t_intersection inter);
 
 #endif

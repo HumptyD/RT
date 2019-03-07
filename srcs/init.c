@@ -6,11 +6,23 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 13:24:23 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/05 18:41:29 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/07 19:34:49 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+void	init_pixels(t_render *render)
+{
+	int	i;
+
+	i = -1;
+	while (++i < render->w_width * render->w_height)
+	{
+		render->pixels[i].pixel = (t_vector){0, 0, 0, 0};
+		render->pixels[i].samples = 0;
+	}
+}
 
 void	init(t_render *render)
 {
@@ -19,7 +31,9 @@ void	init(t_render *render)
 	render->cam.hor = 0. * M_PI / 180;
 	render->cam.vert = 0. * M_PI / 180;
 	render->cam.focus = 1000.;
-	
+
+	render->trace_path = 1;
+
 	render->lights_nb = 1;
 	render->objects_nb = 1;
 	render->materials_nb = 4;
@@ -30,7 +44,8 @@ void	init(t_render *render)
 	render->lights = (t_light *)malloc(sizeof(t_light) * render->lights_nb);
 	render->objects = (t_object *)malloc(sizeof(t_object) * render->objects_nb);
 	render->materials = (t_material *)malloc(sizeof(t_material) * render->materials_nb);
-	render->pixels = (t_vector *)malloc(sizeof(t_vector) * render->w_width * render->w_height);
+	render->pixels = (t_pixel *)malloc(sizeof(t_pixel) * render->w_width * render->w_height);
+	init_pixels(render);
 	render->textures = (t_texture *)malloc(sizeof(t_texture) * render->textures_nb);
 	render->pictures = (t_picture *)malloc(sizeof(t_picture) * render->pictures_nb);
 
@@ -39,7 +54,7 @@ void	init(t_render *render)
 	render->materials[0].shininess = 500.;
 	render->materials[0].refraction = 0.2;
 	render->materials[0].refractive_index = 1.33;
-	
+
 	render->materials[1].albedo = 1;
 	render->materials[1].specular = 0;
 	render->materials[1].shininess = -1.;
@@ -51,7 +66,7 @@ void	init(t_render *render)
 	render->materials[2].shininess = -1.;
 	render->materials[2].refraction = 0;
 	render->materials[2].refractive_index = 0;
-	
+
 	render->materials[3].albedo = 1;
 	render->materials[3].specular = 0;
 	render->materials[3].shininess = -1.;
@@ -73,57 +88,57 @@ void	init(t_render *render)
 	render->textures[0].picture = &render->pictures[0];
 	render->textures[0].a = 0;
 	render->textures[0].b = 0;
-	
+
 	render->textures[1].picture = &render->pictures[1];
 	render->textures[1].a = 0;
 	render->textures[1].b = 0;
-	
+
 	texture_reader("bridge.ppm", &render->pictures[2]);
 	normal_reader("bridge_normal.ppm", &render->pictures[2]);
 
 	render->textures[2].picture = &render->pictures[2];
-//	render->textures[2].picture->normals = NULL;
+	//	render->textures[2].picture->normals = NULL;
 	render->textures[2].a = 0;
 	render->textures[2].b = 0;
 
-//	render->textures
+	//	render->textures
 
-//	t_matrix_4x4 m;
+	//	t_matrix_4x4 m;
 
 	render->lights[0].position = (t_vector){0, -70, 150, 1};
 	render->lights[0].intensity = 1;
 	render->lights[0].type = POINT;
 
-//	render->lights[1].position = (t_vector){0, 70, -80, 1};
-//	render->lights[1].intensity = 1;
-//	render->lights[1].type = POINT;
+	//	render->lights[1].position = (t_vector){0, 70, -80, 1};
+	//	render->lights[1].intensity = 1;
+	//	render->lights[1].type = POINT;
 
-//	render->lights[0].position = (t_vector){0, 0, 150, 1};
-//	render->lights[0].direction = vector_normalize((t_vector){0, 0, -1, 0});
-//	m = matrix_multiply(y_rotation_matrix(0 * M_PI / 180), z_rotation_matrix(0 * M_PI / 180));
-//	m = matrix_multiply(x_rotation_matrix(0 * M_PI / 180), m);
-//	render->lights[0].direction = vector_matrix_multiply(render->lights[0].direction, m);
-//	render->lights[0].angle = 30. * M_PI / 180;
-//	render->lights[0].intensity = 1;
-//	render->lights[0].type = DIRECTED;
+	//	render->lights[0].position = (t_vector){0, 0, 150, 1};
+	//	render->lights[0].direction = vector_normalize((t_vector){0, 0, -1, 0});
+	//	m = matrix_multiply(y_rotation_matrix(0 * M_PI / 180), z_rotation_matrix(0 * M_PI / 180));
+	//	m = matrix_multiply(x_rotation_matrix(0 * M_PI / 180), m);
+	//	render->lights[0].direction = vector_matrix_multiply(render->lights[0].direction, m);
+	//	render->lights[0].angle = 30. * M_PI / 180;
+	//	render->lights[0].intensity = 1;
+	//	render->lights[0].type = DIRECTED;
 
-//	render->lights[0].direction = vector_normalize((t_vector){0, 0, -1, 0});
-//	m = matrix_multiply(y_rotation_matrix(30 * M_PI / 180), z_rotation_matrix(0 * M_PI / 180));
-//	m = matrix_multiply(x_rotation_matrix(0 * M_PI / 180), m);
-//	render->lights[0].direction = vector_matrix_multiply(render->lights[0].direction, m);
-//	render->lights[0].intensity = 1;
-//	render->lights[0].type = PARALLEL;
+	//	render->lights[0].direction = vector_normalize((t_vector){0, 0, -1, 0});
+	//	m = matrix_multiply(y_rotation_matrix(30 * M_PI / 180), z_rotation_matrix(0 * M_PI / 180));
+	//	m = matrix_multiply(x_rotation_matrix(0 * M_PI / 180), m);
+	//	render->lights[0].direction = vector_matrix_multiply(render->lights[0].direction, m);
+	//	render->lights[0].intensity = 1;
+	//	render->lights[0].type = PARALLEL;
 
-	render->objects[0].primitives_nb = 7;
+	render->objects[0].primitives_nb = 3;
 	render->objects[0].primitives = (t_primitive *)malloc(sizeof(t_primitive)
 			* render->objects[0].primitives_nb);
-	
+
 	render->objects[0].primitives[0].type = SPHERE;
 	render->objects[0].primitives[0].primitive = get_unit_primitive(
 			render->objects[0].primitives[0].type);
 	render->objects[0].primitives[0].material = &render->materials[0];
 	sphere_rotation((t_sphere *)render->objects[0].primitives[0].primitive, 0. * M_PI / 180, 0. * M_PI / 180, 30. * M_PI / 180);
-	((t_sphere *)render->objects[0].primitives[0].primitive)->center = (t_vector){-20, 0, 20, 1};
+	((t_sphere *)render->objects[0].primitives[0].primitive)->center = (t_vector){-20, 0, 10, 1};
 	render->objects[0].primitives[0].texture = &render->textures[0];
 
 	render->objects[0].primitives[1].type = SPHERE;
@@ -131,8 +146,10 @@ void	init(t_render *render)
 			render->objects[0].primitives[1].type);
 	render->objects[0].primitives[1].material = &render->materials[1];
 	sphere_rotation((t_sphere *)render->objects[0].primitives[1].primitive, 0. * M_PI / 180, 0. * M_PI / 180, 30. * M_PI / 180);
-	((t_sphere *)render->objects[0].primitives[1].primitive)->center = (t_vector){20, 0, 20, 1};
-	render->objects[0].primitives[1].texture = &render->textures[2];
+	((t_sphere *)render->objects[0].primitives[1].primitive)->center = (t_vector){20, 0, 10, 1};
+	//	((t_sphere *)render->objects[0].primitives[1].primitive)->cut_v = vector_normalize((t_vector){1, 0, 0, 0});
+	//	((t_sphere *)render->objects[0].primitives[1].primitive)->cut_angle = 90 * M_PI / 180;
+	render->objects[0].primitives[1].texture = &render->textures[0];
 
 
 	render->objects[0].primitives[2].type = PLANE;
@@ -142,50 +159,51 @@ void	init(t_render *render)
 	triangle_size((t_triangle *)render->objects[0].primitives[2].primitive, 100, 100);
 	triangle_rotation((t_triangle *)render->objects[0].primitives[2].primitive,
 			0 * M_PI / 180, 0 * M_PI / 180, 0 * M_PI / 180);
-	render->objects[0].primitives[2].texture = &render->textures[2];
+	render->objects[0].primitives[2].texture = &render->textures[1];
+
+	/*
+	   render->objects[0].primitives[3].type = TRIANGLE;
+	   render->objects[0].primitives[3].primitive = get_unit_primitive(
+	   render->objects[0].primitives[3].type);
+	   render->objects[0].primitives[3].material = &render->materials[1];
+	   triangle_size((t_triangle *)render->objects[0].primitives[3].primitive, 20, 20);
+	   triangle_rotation((t_triangle *)render->objects[0].primitives[3].primitive,
+	   -70 * M_PI / 180, 0 * M_PI / 180, 0 * M_PI / 180);
+	   triangle_translation((t_triangle *)render->objects[0].primitives[3].primitive,
+	   (t_vector){-40, 0, 40, 1});
+	   render->objects[0].primitives[3].texture = &render->textures[2];
+
+	   render->objects[0].primitives[4].type = CIRCLE;
+	   render->objects[0].primitives[4].primitive = get_unit_primitive(
+	   render->objects[0].primitives[4].type);
+	   render->objects[0].primitives[4].material = &render->materials[1];
+	   ((t_circle *)render->objects[0].primitives[4].primitive)->r = 10;
+	   triangle_rotation(&((t_circle *)render->objects[0].primitives[4].primitive)->plane,
+	   -70 * M_PI / 180, 0 * M_PI / 180, 0 * M_PI / 180);
+	   triangle_translation(&((t_circle *)render->objects[0].primitives[4].primitive)->plane,
+	   (t_vector){0, 0, 40, 1});
+	   render->objects[0].primitives[4].texture = &render->textures[2];
 
 
-	render->objects[0].primitives[3].type = TRIANGLE;
-	render->objects[0].primitives[3].primitive = get_unit_primitive(
-			render->objects[0].primitives[3].type);
-	render->objects[0].primitives[3].material = &render->materials[1];
-	triangle_size((t_triangle *)render->objects[0].primitives[3].primitive, 20, 20);
-	triangle_rotation((t_triangle *)render->objects[0].primitives[3].primitive,
-			-70 * M_PI / 180, 0 * M_PI / 180, 0 * M_PI / 180);
-	triangle_translation((t_triangle *)render->objects[0].primitives[3].primitive,
-		   (t_vector){-40, 0, 40, 1});
-	render->objects[0].primitives[3].texture = &render->textures[2];
+	   render->objects[0].primitives[5].type = CYLINDER;
+	   render->objects[0].primitives[5].primitive = get_unit_primitive(
+	   render->objects[0].primitives[5].type);
+	   render->objects[0].primitives[5].material = &render->materials[1];
+	   ((t_cylinder *)render->objects[0].primitives[5].primitive)->center = (t_vector){15, 0, 50, 1};	
+	   cylinder_rotation((t_cylinder *)render->objects[0].primitives[5].primitive,
+	   0 * M_PI / 180, -90 * M_PI / 180, 0 * M_PI / 180);
+	   render->objects[0].primitives[5].texture = &render->textures[2];
 
-	render->objects[0].primitives[4].type = CIRCLE;
-	render->objects[0].primitives[4].primitive = get_unit_primitive(
-			render->objects[0].primitives[4].type);
-	render->objects[0].primitives[4].material = &render->materials[1];
-	((t_circle *)render->objects[0].primitives[4].primitive)->r = 10;
-	triangle_rotation(&((t_circle *)render->objects[0].primitives[4].primitive)->plane,
-			-70 * M_PI / 180, 0 * M_PI / 180, 0 * M_PI / 180);
-	triangle_translation(&((t_circle *)render->objects[0].primitives[4].primitive)->plane,
-		   (t_vector){0, 0, 40, 1});
-	render->objects[0].primitives[4].texture = &render->textures[2];
 
-	
-	render->objects[0].primitives[5].type = CYLINDER;
-	render->objects[0].primitives[5].primitive = get_unit_primitive(
-			render->objects[0].primitives[5].type);
-	render->objects[0].primitives[5].material = &render->materials[1];
-	((t_cylinder *)render->objects[0].primitives[5].primitive)->center = (t_vector){15, 0, 50, 1};	
-	cylinder_rotation((t_cylinder *)render->objects[0].primitives[5].primitive,
-			0 * M_PI / 180, -90 * M_PI / 180, 0 * M_PI / 180);
-	render->objects[0].primitives[5].texture = &render->textures[2];
-
-	
-	render->objects[0].primitives[6].type = CONE;
-	render->objects[0].primitives[6].primitive = get_unit_primitive(
-			render->objects[0].primitives[6].type);
-	render->objects[0].primitives[6].material = &render->materials[1];
-	((t_cone *)render->objects[0].primitives[6].primitive)->tip = (t_vector){-50, 0, 40, 1};	
-	cone_rotation((t_cone *)render->objects[0].primitives[6].primitive,
-			-40 * M_PI / 180, 0 * M_PI / 180, 0 * M_PI / 180);
-	render->objects[0].primitives[6].texture = &render->textures[2];
+	   render->objects[0].primitives[6].type = CONE;
+	   render->objects[0].primitives[6].primitive = get_unit_primitive(
+	   render->objects[0].primitives[6].type);
+	   render->objects[0].primitives[6].material = &render->materials[1];
+	   ((t_cone *)render->objects[0].primitives[6].primitive)->tip = (t_vector){-50, 0, 40, 1};	
+	   cone_rotation((t_cone *)render->objects[0].primitives[6].primitive,
+	   -40 * M_PI / 180, 0 * M_PI / 180, 0 * M_PI / 180);
+	   render->objects[0].primitives[6].texture = &render->textures[2];
+	   */
 }
 
 

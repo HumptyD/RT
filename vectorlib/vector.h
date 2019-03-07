@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 15:18:47 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/05 18:22:24 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/07 19:19:36 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct	s_sphere
 	t_vector	center;
 	t_vector	latitude;
 	t_vector	longitude;
+	t_vector	cut_v;
+	double		cut_angle;
 	double		r;
 }				t_sphere;
 
@@ -76,6 +78,7 @@ double				vector_length(t_vector v1);
 double				vectors_angle(t_vector a, t_vector b);
 t_vector			vector_scalar_multiply(t_vector v, double n);
 t_vector			vector_matrix_multiply(t_vector v, t_matrix_4x4 m);
+t_vector			vector_vector_multiply(t_vector a, t_vector b);
 
 t_matrix_4x4		matrix_multiply(t_matrix_4x4 a, t_matrix_4x4 b);
 t_matrix_4x4		x_rotation_matrix(double alpha);
