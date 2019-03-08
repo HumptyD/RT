@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/21 17:29:52 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/02/23 19:04:46 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/08 17:03:16 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,9 @@ t_intersection	init_intersection(void)
 {
 	return ((t_intersection){0, 0, 0, (t_vector){0, 0, 0, 0},
 		(t_vector){0, 0, 0, 0}, 0});
+}
+
+void	clear_surface(SDL_Surface *surface)
+{
+		ft_bzero(surface->pixels, surface->w * surface->h * 4);
 }

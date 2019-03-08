@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 12:19:55 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/07 19:31:46 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/08 17:24:31 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@ void	sdl_loop(t_render *render)
 				quit = 1;
 			if (render->sdl.event.type == SDL_KEYDOWN)
 				keyboard(render, &quit);
+			if (render->sdl.event.type == SDL_WINDOWEVENT)
+				if (render->sdl.event.window.event == SDL_WINDOWEVENT_RESIZED)
+				{
+					render->sdl.surface = SDL_GetWindowSurface(render->sdl.window);
+					clear_surface(render->sdl.surface);
+					render->w_width = render->sdl.event.window.data1;
+					render->w_height = render->sdl.event.window.data2;
+					render->cam.focus = render->w_width / tan(60 * M_PI / 180);
+					free(render->rays);
+					free(render->pixels);
+					render->rays = (t_ray *)malloc(sizeof(t_ray) * render->w_width * render->w_height);
+					render->pixels = (t_pixel *)malloc(sizeof(t_pixel) * render->w_width * render->w_height);
+					init_pixels(render);
+				}
 		}
 		if (render->trace_path)
 			ft_render(render);
@@ -50,7 +64,7 @@ int		main(void)
 {
 	t_render	render;
 	t_picture	pic;
-	
+
 	init_sdl(&render);
 	init(&render);
 	texture_reader("Terracotta_Tiles_002_basecolor.ppm", &pic);

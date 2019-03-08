@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 13:04:26 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/07 20:52:43 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/08 17:21:47 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ray_lens_cast(t_render *render)
 {
 	int				i;
 	int				area;
-	t_vector		rand;
+	t_vector		rand_v;
 	t_matrix_4x4	rotation;
 
 	i = -1;
@@ -51,22 +51,25 @@ void	ray_lens_cast(t_render *render)
 	rotation = matrix_multiply(
 			x_rotation_matrix(-render->cam.vert),
 			z_rotation_matrix(-render->cam.hor));
-	rand.x = (double)rand() / RAND_MAX * 2 - 1;
-	rand.y = 0.;
-	rand.z = (double)rand() / RAND_MAX * 2 - 1;
-	rand.w = 0.;
-	rand = vector_scalar_multiply(rand, render->cam.r);
+	rand_v.x = (double)rand() / RAND_MAX * 2 - 1;
+	rand_v.y = 0.;
+	rand_v.z = (double)rand() / RAND_MAX * 2 - 1;
+	rand_v.w = 0.;
+	rand_v = vector_scalar_multiply(rand_v, render->cam.r);
 	while (++i < area)
 	{
-		render->rays[i].origin = vector_sum(rand, render->cam.position);
-		render->rays[i].direction =
-			vector_matrix_multiply(vector_normalize((t_vector)
-						{
-						(i % render->w_width - render->w_width / 2),
-						render->cam.focus,
-						-(i / render->w_width - render->w_height / 2),
-						0.
-						}), rotation);
+		render->rays[i].origin = vector_sum(vector_matrix_multiply(
+					rand_v, rotation),
+				render->cam.position);
+		render->rays[i].direction = vector_sub((t_vector)
+				{
+				(i % render->w_width - render->w_width / 2),
+				render->cam.focus,
+				-(i / render->w_width - render->w_height / 2),
+				0.				
+				}, rand_v);
+		render->rays[i].direction = vector_matrix_multiply(
+				vector_normalize(render->rays[i].direction), rotation);
 	}
 }
 

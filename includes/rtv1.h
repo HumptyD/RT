@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 12:11:39 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/07 20:21:52 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/08 17:23:52 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct	s_material
 	double		shininess;
 	double		refraction;
 	double		refractive_index;
+	double		emittance;
+	double		intensity;
 }				t_material;
 
 typedef struct	s_primitive
@@ -165,6 +167,8 @@ void			init_color(t_vector *color);
 void			mix_color(t_vector *color);
 void			compute_lightning(t_render *render, t_intersection inter, t_ray ray, double *li);
 void			get_pic_normal(t_intersection *inter);
+void			clear_surface(SDL_Surface *surface);
+void			init_pixels(t_render *render);
 t_intersection	triangle_intersection(t_ray ray, t_triangle triangle);
 t_intersection	sphere_intersection(t_ray ray, t_sphere sphere);
 t_intersection	plane_intersection(t_ray ray, t_triangle plane);
