@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/11 16:31:07 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/04 17:13:52 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/12 14:29:56 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static	int			compute_parallel_light(t_render *render, t_light light,
 	return (0);
 }
 
-void		compute_lightning(t_render *render, t_intersection inter, t_ray ray, double *li)
+void				compute_lightning(t_render *render,
+							t_intersection inter, t_ray ray, double *li)
 {
 	int		s;
 	int		i;
@@ -78,9 +79,11 @@ void		compute_lightning(t_render *render, t_intersection inter, t_ray ray, doubl
 		if (render->lights[i].type == POINT)
 			s = compute_point_light(render, render->lights[i], &l_ray, inter);
 		if (render->lights[i].type == DIRECTED)
-			s = compute_directed_light(render, render->lights[i], &l_ray, inter);
+			s = compute_directed_light(render,
+					render->lights[i], &l_ray, inter);
 		if (render->lights[i].type == PARALLEL)
-			s = compute_parallel_light(render, render->lights[i], &l_ray, inter);
+			s = compute_parallel_light(render,
+					render->lights[i], &l_ray, inter);
 		if (s)
 		{
 			li[0] += render->lights[i].intensity *
@@ -88,7 +91,8 @@ void		compute_lightning(t_render *render, t_intersection inter, t_ray ray, doubl
 			if (inter.primitive->material->shininess > -1)
 			{
 				l_m = reflected_ray(l_ray, inter);
-				d = dot_product(l_m.direction, vector_scalar_multiply(ray.direction, -1));
+				d = dot_product(l_m.direction,
+						vector_scalar_multiply(ray.direction, -1));
 				li[1] += render->lights[i].intensity *
 					pow(fmax(0., d), inter.primitive->material->shininess);
 			}

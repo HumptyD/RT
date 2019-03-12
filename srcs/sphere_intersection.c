@@ -6,13 +6,13 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/11 13:43:02 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/06 17:15:18 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 19:28:52 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static int			cut_sphere(t_intersection *res, t_sphere sphere,
+static int		cut_sphere(t_intersection *res, t_sphere sphere,
 								t_ray ray, double t0)
 {
 	res->point = vector_sum(ray.origin,
@@ -45,7 +45,7 @@ double			light_sphere_intersection(t_sphere sphere, t_ray light_ray)
 	return (t0);
 }
 
-static void			uv_coords_sphere(t_intersection *res, t_sphere sphere)
+static void		uv_coords_sphere(t_intersection *res, t_sphere sphere)
 {
 	t_vector		cross;
 	t_vector		v;

@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 17:12:08 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/04 18:13:37 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 16:25:15 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void			uv_coords_circle(t_intersection *res, t_circle circle)
 	double		pr;
 	double		len;
 
-	cp =  vector_sub(res->point, circle.plane.a);
+	cp = vector_sub(res->point, circle.plane.a);
 	len = vector_length(cp);
 	cp = vector_normalize(cp);
 	ab = vector_normalize(vector_sub(circle.plane.b, circle.plane.a));

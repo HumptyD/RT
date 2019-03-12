@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 14:47:30 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/08 15:49:02 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 16:32:47 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static t_intersection	intersection(t_primitive primitive, t_ray ray)
 		res = cylinder_intersection(ray, *((t_cylinder *)primitive.primitive));
 	else if (primitive.type == CONE)
 		res = cone_intersection(ray, *((t_cone *)primitive.primitive));
-	return (res);	
+	return (res);
 }
 
 t_intersection			get_closest_intersection(t_render *render, t_ray ray)

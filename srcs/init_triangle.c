@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 14:54:33 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/02 17:57:23 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 17:13:45 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void		triangle_translation(t_triangle *triangle, t_vector position)
 	triangle->c = vector_matrix_multiply(triangle->c, m);
 }
 
-void		triangle_rotation(t_triangle *triangle, double x, double y, double z)
+void		triangle_rotation(t_triangle *triangle,
+								double x, double y, double z)
 {
 	t_matrix_4x4	m;
 

@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 14:57:16 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/08 17:01:13 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 17:30:11 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ static int	invalid_ray(t_vector dir)
 
 t_vector	path_tracing(t_render *render, t_ray ray, int depth)
 {
-	t_vector	signal;
-	t_vector	color[5];
-	t_intersection inter;
-	double		li[2];
+	t_vector		signal;
+	t_vector		color[5];
+	t_intersection	inter;
+	double			li[2];
 
 	color[4] = (t_vector){0, 0, 0, 0};
 	signal = (t_vector){1, 1, 1, 0};

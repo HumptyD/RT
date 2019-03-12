@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 20:11:32 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/06 16:00:47 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 17:13:07 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_cylinder	init_cylinder(void)
 	return (cylinder);
 }
 
-void	cylinder_rotation(t_cylinder *cylinder, double x, double y, double z)
+void		cylinder_rotation(t_cylinder *cylinder,
+								double x, double y, double z)
 {
 	t_matrix_4x4 m;
 

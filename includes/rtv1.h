@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 12:11:39 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/08 17:23:52 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 17:23:21 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,11 @@ void			compute_lightning(t_render *render, t_intersection inter, t_ray ray, doub
 void			get_pic_normal(t_intersection *inter);
 void			clear_surface(SDL_Surface *surface);
 void			init_pixels(t_render *render);
+void			change_plane_basis(t_intersection *inter);
+void			change_circle_basis(t_intersection *inter);
+void			change_sphere_basis(t_intersection *inter);
+void			change_cylinder_basis(t_intersection *inter);
+void			change_cone_basis(t_intersection *inter);
 t_intersection	triangle_intersection(t_ray ray, t_triangle triangle);
 t_intersection	sphere_intersection(t_ray ray, t_sphere sphere);
 t_intersection	plane_intersection(t_ray ray, t_triangle plane);
@@ -184,6 +189,7 @@ int				texture_reader(char *file, t_picture *pic);
 int				read_format(int fd);
 int				read_size(t_picture *pic, int fd);
 int				read_max_value(int fd);
+int				normal_id(t_intersection *inter);
 double			light_sphere_intersection(t_sphere sphere, t_ray light_ray);
 double			light_triangle_intersection(t_triangle triangle, t_ray light_ray);
 double			light_plane_intersection(t_triangle plane, t_ray light_ray);
@@ -193,6 +199,7 @@ double			light_circle_intersection(t_circle circle, t_ray ray);
 t_vector		get_texture(t_intersection inter, t_texture texture);
 t_vector		ray_tracing(t_render *render, t_ray ray, int reflection);
 t_vector		path_tracing(t_render *render, t_ray ray, int depth);
+t_vector		init_vector_color(int color);
 t_sphere		init_sphere(void);
 t_triangle		init_triangle(void);
 t_circle		init_circle(void);

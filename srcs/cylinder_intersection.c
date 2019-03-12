@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/13 18:30:54 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/02/23 14:41:26 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/12 16:54:12 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void			uv_coords_cylinder(t_intersection *res, t_cylinder cylinder)
 	res->u = (dot_product(res->normal, cylinder.r_vec) + 1) / 2;
 }
 
-static void			get_normal_cylinder(t_intersection *res,
+static void		get_normal_cylinder(t_intersection *res,
 						t_cylinder cylinder)
 {
 	t_vector	v1;

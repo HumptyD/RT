@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 15:12:28 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/02 18:52:52 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 19:29:56 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ int		read_picture(t_picture *pic, int fd)
 {
 	unsigned char	buf[3];
 	int				i;
-	
+
 	if (!(pic->picture = (int *)malloc(sizeof(int) * pic->width * pic->height)))
 		return (0);
 	i = -1;
 	while (++i < pic->width * pic->height && read(fd, buf, 3))
 		pic->picture[i] = ((int)buf[0] << 16 | (int)buf[1] << 8 | (int)buf[2]);
-	return (1);	
+	return (1);
 }
 
 int		texture_reader(char *file, t_picture *pic)
@@ -104,5 +104,3 @@ int		texture_reader(char *file, t_picture *pic)
 	close(fd);
 	return (0);
 }
-
-

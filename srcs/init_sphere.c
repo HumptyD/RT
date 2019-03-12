@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 13:46:07 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/06 17:15:21 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 17:13:26 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_sphere	init_sphere(void)
 	return (sphere);
 }
 
-void	sphere_rotation(t_sphere *sphere, double x, double y, double z)
+void		sphere_rotation(t_sphere *sphere, double x, double y, double z)
 {
 	t_matrix_4x4 m;
 

@@ -6,7 +6,7 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 15:38:02 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/02 18:53:07 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 17:29:36 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 int		read_normal(t_picture *pic, int fd)
 {
 	unsigned char	buf[3];
-	int i;
+	int				i;
 
-	if (!(pic->normals = (t_vector *)malloc(sizeof(t_vector) * pic->width * pic->height)))
+	pic->normals = (t_vector *)malloc(sizeof(t_vector)
+			* pic->width * pic->height);
+	if (pic->normals == NULL)
 		return (0);
 	i = -1;
 	while (++i < pic->width * pic->height && read(fd, buf, 3))

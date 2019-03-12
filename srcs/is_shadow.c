@@ -6,13 +6,13 @@
 /*   By: jlucas-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/13 14:28:32 by jlucas-l          #+#    #+#             */
-/*   Updated: 2019/03/02 13:50:40 by jlucas-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 17:14:51 by jlucas-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static double		light_intersection(t_primitive primitive, t_ray l_ray)
+static double	light_intersection(t_primitive primitive, t_ray l_ray)
 {
 	double	z;
 
@@ -23,7 +23,7 @@ static double		light_intersection(t_primitive primitive, t_ray l_ray)
 	else if (primitive.type == PLANE)
 		z = light_plane_intersection(
 				*((t_triangle *)primitive.primitive), l_ray);
-	else  if (primitive.type == CIRCLE)
+	else if (primitive.type == CIRCLE)
 		z = light_circle_intersection(
 				*((t_circle *)primitive.primitive), l_ray);
 	else if (primitive.type == SPHERE)
@@ -38,10 +38,10 @@ static double		light_intersection(t_primitive primitive, t_ray l_ray)
 	return (z);
 }
 
-int			is_shadow(t_render *render, t_ray l_ray, double l_ray_len)
+int				is_shadow(t_render *render, t_ray l_ray, double l_ray_len)
 {
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 	double		z;
 
 	i = -1;
